@@ -1,0 +1,26 @@
+# Speed Reading RSVP Tool - Task List
+
+- `[ ]` Create PWA Configuration Files
+  - `[ ]` Create `manifest.json` for desktop and mobile web app installer
+  - `[ ]` Create `sw.js` (Service Worker) for full offline caching of resources and CDNs
+- `[ ]` Create Premium Styling System (`styles.css`)
+  - `[ ]` Core CSS Variables and Glassmorphism Utility styles
+  - `[ ]` Themes: OLED Dark, Cyberpunk Neon, Classic Warm Sepia, Minimalist Alpine Light
+  - `[ ]` Responsive Layouts for Mobile and Desktop
+  - `[ ]` Precision Focal Line Grid Layouts
+- `[ ]` Create Main Layout Structure (`index.html`)
+  - `[ ]` Dropzone, Text Paste, and Library/Recent Reading UI
+  - `[ ]` Reading Canvas with Focal Reticle Lines
+  - `[ ]` Interactive Control Dashboard (Play, Pause, Progress, Time Left, Speed, Word Chunks)
+  - `[ ]` Settings Drawer with Font & Theme customizers
+  - `[ ]` CDNs: Mammoth, PDF.js, JSZip, Lucide Icons, and Google Fonts
+- `[ ]` Implement Logic & RSVP Engine (`app.js`)
+  - `[ ]` File Upload and Drop Parsing Engine (DOCX, PDF, EPUB, ODT, RTF, TXT, MD)
+  - `[ ]` RSVP optimal visual anchor splitting engine (1-5 word chunk support)
+  - `[ ]` Precision RSVP ticking loop with custom punctuation and long-word delays
+  - `[ ]` Keyboard Shortcuts Listener (Space, Esc, Arrows, R)
+  - `[ ]` State Management (LocalStorage library, session position, and settings cache)
+- `[ ]` Verification and Polishing
+  - `[ ]` Run testing server and open the app to verify file uploads and RSVP stability
+  - `[ ]` Verify full responsiveness and offline support
+  - `[ ]` Draft `walkthrough.md` report
