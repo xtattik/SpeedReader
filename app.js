@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     state.readingText = text.split(/\s+/).filter(w => w.length > 0);
                     state.wordChunkIndex = 0;
                     switchView('reader');
-                    console.log("Text pasted from clipboard successfully.");
+                    updateProgress();
                 } else {
                     alert("Clipboard is empty.");
                 }
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 state.readingText = text.split(/\s+/).filter(w => w.length > 0);
                 state.wordChunkIndex = 0;
                 switchView('reader');
-                console.log("Manual text submitted successfully.");
+                updateProgress();
             } else {
                 alert("Please enter some text first.");
             }
@@ -277,14 +277,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Settings Toggle
-    const settingsToggle = document.getElementById('settingsToggle');
+    // Settings Toggle — works from both dashboard and reader
     const settingsSidebar = document.getElementById('settings-sidebar');
-    if (settingsToggle && settingsSidebar) {
-        settingsToggle.addEventListener('click', () => {
-            const isVisible = !settingsSidebar.classList.contains('hidden');
-            settingsSidebar.classList.toggle('hidden', isVisible);
+    const settingsToggle = document.getElementById('settingsToggle');
+    const settingsToggleDash = document.getElementById('settingsToggleDash');
+
+    function toggleSettings() {
+        settingsSidebar.classList.toggle('hidden');
+    }
+
+    if (settingsToggle) settingsToggle.addEventListener('click', toggleSettings);
+    if (settingsToggleDash) settingsToggleDash.addEventListener('click', toggleSettings);
+
+    // Close sidebar when clicking outside of it
+    if (settingsSidebar) {
+        document.addEventListener('click', (e) => {
+            if (!settingsSidebar.classList.contains('hidden') &&
+                !settingsSidebar.contains(e.target) &&
+                e.target !== settingsToggle && !settingsToggle?.contains(e.target) &&
+                e.target !== settingsToggleDash && !settingsToggleDash?.contains(e.target)) {
+                settingsSidebar.classList.add('hidden');
+            }
         });
+    }
+
+    // Back button — return to dashboard
+    const backButton = document.getElementById('backButton');
+    if (backButton) {
+        backButton.addEventListener('click', () => {
+            if (state.isReading) stopReading();
+            switchView('dashboard');
+            if (playPauseButton) playPauseButton.textContent = 'Play';
+        });
+    }
+
+    // Help modal
+    const helpButton = document.getElementById('helpButton');
+    const helpModal = document.getElementById('help-modal');
+    const closeHelp = document.getElementById('closeHelp');
+    const helpBackdrop = document.getElementById('helpBackdrop');
+    if (helpButton && helpModal) {
+        helpButton.addEventListener('click', () => helpModal.classList.remove('hidden'));
+    }
+    if (closeHelp && helpModal) {
+        closeHelp.addEventListener('click', () => helpModal.classList.add('hidden'));
+    }
+    if (helpBackdrop && helpModal) {
+        helpBackdrop.addEventListener('click', () => helpModal.classList.add('hidden'));
     }
 
     // Keyboard Shortcuts
@@ -476,13 +515,13 @@ function updateEffectiveWPM() {
 
 function updateProgress() {
     const progressText = document.getElementById('progress-text');
-    const progressBar = document.getElementById('progress-bar');
+    const progressFill = document.getElementById('progress-fill');
     if (progressText) {
         progressText.textContent = `${state.wordChunkIndex} / ${state.readingText.length}`;
     }
-    if (progressBar && state.readingText.length > 0) {
+    if (progressFill && state.readingText.length > 0) {
         const pct = (state.wordChunkIndex / state.readingText.length) * 100;
-        progressBar.style.width = `${pct}%`;
+        progressFill.style.width = `${pct}%`;
     }
 }
 
