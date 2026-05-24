@@ -58,16 +58,30 @@ function handleFileDrop(file) {
 document.addEventListener('DOMContentLoaded', () => {
     console.log("SpeedReader App Initializing...");
     
+// Add event listeners to setup the UI
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("SpeedReader App Initializing...");
+    
     // Drag and Drop
     const dropzone = document.getElementById('upload-zone');
     if (dropzone) {
+        // Prevent default browser behavior for the whole window to avoid file opening
+        window.addEventListener('dragover', (e) => e.preventDefault(), { passive: false });
+        window.addEventListener('drop', (and e) => e.preventDefault(), { passive: false });
+
         dropzone.addEventListener('dragover', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             dropzone.classList.add('dragover');
         });
-        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+        dropzone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('dragover');
+        });
         dropzone.addEventListener('drop', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             dropzone.classList.remove('dragover');
             const file = e.dataTransfer.files[0];
             if (file) handleFileDrop(file);
@@ -85,6 +99,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Paste Functionality (Clipboard API)
+    const pasteButton = document.getElementById('pasteButton');
+    if (paste/pasteButton) {
+        pasteButton.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    state.readingText = text.split(/\s+/).filter(w => w.length > 0);
+                    state.wordChunkIndex = 0;
+                    switchView('reader');
+                    console.log("Text pasted from clipboard successfully.");
+                } else {
+                    alert("Clipboard is empty.");
+                }
+            } catch (err) {
+                alert("Failed to read clipboard. Please ensure you have given permission.");
+                console.error(`Error: ${err.message}`);
+            }
+        });
+    }
+
+    // Manual Text Area Functionality
+    const manualSubmitButton = document.getElementById('manualSubmitButton');
+    const manualPasteArea = document.getElementById('manualPasteArea');
+    if (manualSubmitButton && manualPasteArea) {
+        manualSubmitButton.addEventListener('click', () => {
+            const text = manualPasteArea.value.trim();
+            if (text) {
+                state.readingText = text.split(/\s+/).filter(w => w.length > 0);
+                state.wordChunkIndex = 0;
+                switchView('reader');
+                console.log("Manual text submitted successfully.");
+            } else {
+                alert("Please enter some text first.");
+            }
+        });
+    }
+
     // Play/Pause Button
     const playPauseButton = document.getElementById('playPauseButton');
     if (playPauseButton) {
@@ -98,6 +150,351 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Speed Slider
+    const speedRange = document.getElementById('speedRange');
+    const speedDisplay = document.getElementById('speed-display');
+    if (speedRange && speedDisplay) {
+        speedRange.addEventListener('input', (e) => {
+            const newSpeed = parseInt(e.target.value);
+            state.speedWPM = newSpeed;
+            speedDisplay.textContent = newSpeed;
+        });
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+        // Prevent scrolling when pressing Space
+        if (e.code === 'Space' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+        }
+
+        switch (e.code) {
+            case 'Space':
+                if (state.isReading) {
+                    stopReading();
+                    if (playPauseButton) playPauseButton.textContent = 'Play';
+                } else {
+                    startReading();
+                    if (playPauseButton) playPauseButton.textContent = 'Pause';
+                }
+                break;
+            case 'Escape':
+                if (state.isReading) stopReading();
+                switchView('dashboard');
+                if (playPauseButton) playPauseButton.textContent = 'Play';
+                break;
+            case 'KeyR':
+                state.wordChunkIndex = 0;
+                if (state.isReading) startReading();
+                break;
+        }
+    });
+});
+        dropzone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('dragover');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) handleFileDrop(file);
+        });
+    }
+
+    // Browse Button
+    const fileInput = document.getElementById('fileInput');
+    const browseButton = document.getElementById('browseButton');
+    if (browseButton && fileInput) {
+        browseButton.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleFileDrop(file);
+        });
+    }
+
+    // Paste Functionality (Clipboard API)
+    const pasteButton = document.getElementById('pasteButton');
+    if (pasteButton) {
+        pasteButton.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    state.readingText = text.split(/\s+/).filter(w => w.length > 0);
+                    state.wordChunkIndex = 0;
+                    switchView('reader');
+                    console.log("Text pasted from clipboard successfully.");
+                } else {
+                    alert("Clipboard is empty.");
+                }
+            } catch (err) {
+                alert("Failed to read clipboard. Please ensure you have given permission.");
+                console.error(formatError(err));
+            }
+        });
+    }
+
+    // Manual Text Area Functionality
+    const manualSubmitButton = document.getElementById('manualSubmitButton');
+    const manualPasteArea = document.getElementById('manualPasteArea');
+    if (manualSubmitButton && manualPasteArea) {
+        manualSubmitButton.addEventListener('click', () => {
+            const text = manualPasteArea.value.trim();
+            if (text) {
+                state.readingText = text.split(/\s+/).filter(w => w.length > 0);
+                state.wordChunkIndex = 0;
+                switchView('reader');
+                console.log("Manual text submitted successfully.");
+            } else {
+                alert("Please enter some text first.");
+            }
+        });
+    }
+
+    // Play/Pause Button
+    const playPauseButton = document.getElementById('playPauseButton');
+    if (playPauseButton) {
+        playPauseButton.addEventListener('click', () => {
+            if (state.isReading) {
+                stopReading();
+                playPauseButton.textContent = 'Play';
+            } else {
+                startReading();
+                playPauseButton.textContent = 'Pause';
+            }
+        });
+    }
+
+    // Speed Slider
+    const speedRange = document.getElementById('speedRange');
+    const speedDisplay = document.getElementById('speed-display');
+    if (speedRange && speedDisplay) {
+        speedRange.addEventListener('input', (e) => {
+            const newSpeed = parseInt(e.target.value);
+            state.speedWPM = newSpeed;
+            speedDisplay.textContent = new                newSpeed;
+        });
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+        // Prevent scrolling when pressing Space
+        if (e.code === 'Space' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+        }
+
+        switch (e.code) {
+            case 'Space':
+                if (state.isReading) {
+                    stopReading();
+                    if (playPauseButton) playPauseButton.textContent = 'Play';
+                } else {
+                    startReading();
+                    if (playPauseButton) playPauseButton.textContent = 'Pause';
+                }
+                break;
+            case 'Escape':
+                if (state.isReading) stopReading();
+                switchView('dashboard');
+                if (playPauseButton) playPauseButton.textContent = 'Play';
+                break;
+            case 'KeyR':
+                state.wordChunkIndex = 0;
+                if (state.isReading) startReading();
+                break;
+        }
+    });
+});
+
+// Helper for error logging
+function formatError(err) {
+    return `Error: ${err.message}`;
+}
+
+        dropzone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('dragover');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) handleFileDrop(file);
+        });
+    }
+
+    // Browse Button
+    const fileInput = document.getElementById('fileInput');
+    const browseButton = document.getElementById('browseButton');
+    if (browseButton && fileInput) {
+        browseButton.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleFileDrop(file);
+        });
+    }
+
+    // Paste Functionality
+    const pasteButton = document.getElementById('pasteButton');
+    if (pasteButton) {
+        pasteButton.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    state.readingText = text.split(/\s+/).filter(w => w.length > 0);
+                    state.wordChunkIndex = 0;
+                    switchView('reader');
+                    console.log("Text pasted successfully.");
+                } else {
+                    alert("Clipboard is empty.");
+                }
+            } catch (err) {
+                alert("Failed to read clipboard. Please ensure you have given permission.");
+                console.error(err);
+            }
+        });
+    }
+
+    // Play/Pause Button
+    const playPauseButton = document.getElementById('playPauseButton');
+    if (playPauseButton) {
+        playPauseButton.addEventListener('click', () => {
+            if (state.isReading) {
+                stopReading();
+                playPauseButton.textContent = 'Play';
+            } else {
+                startReading();
+                playPauseButton.textContent = 'Pause';
+            }
+        });
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+        // Prevent scrolling when pressing Space
+        if (e.code === 'Space' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+        }
+
+        switch (e.code) {
+            case 'Space':
+                if (state.isReading) {
+                    stopReading();
+                    if (playPauseButton) playPauseButton.textContent = 'Play';
+                } else {
+                    startReading();
+                    if (playPauseButton) playPauseButton.textContent = 'Pause';
+                }
+                break;
+            case 'Escape':
+                if (state.isReading) stopReading();
+                switchView('dashboard');
+                if (playPauseButton) playPauseButton.textContent = 'Play';
+                break;
+            case 'ArrowRight':
+                // Forward skip logic (if implemented)
+                break;
+            case 'ArrowLeft':
+                // Backward skip logic (if implemented)
+                break;
+            case 'KeyR':
+                // Reset reading
+                state.wordChunkIndex = 0;
+                if (state.isReading) startReading();
+                break;
+        }
+    });
+});
+        dropzone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('dragover');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) handleFileDrop(file);
+        });
+    }
+
+    // Paste Functionality
+    const pasteButton = document.getElementById('pasteButton');
+    if (pasteButton) {
+        pasteButton.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    state.readingText = text.split(/\s+/).filter(w => w.length > 0);
+                    state.wordChunkIndex = 0;
+                    switchView('reader');
+                    console.log("Text pasted successfully.");
+                } else {
+                    alert("Clipboard is empty.");
+                }
+            } catch (err) {
+                alert("Failed to read clipboard. Please ensure you have given permission.");
+                console.error(err);
+            }
+        });
+    }
+
+    // Play/Pause Button
+    const playPauseButton = document.getElementById('playPauseButton');
+    if (playPauseButton) {
+        playPauseButton.addEventListener('click', () => {
+            if (state.isReading) {
+                stopReading();
+                playPauseButton.textContent = 'Play';
+            } else {
+                startReading();
+                playPauseButton.textContent = 'Pause';
+            }
+        });
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+        // Prevent scrolling when pressing Space
+        if (e.code === 'Space' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+        }
+
+        switch (e.code) {
+            case 'Space':
+                if (state.isReading) {
+                    stopReading();
+                    if (playPauseButton) playPauseButton.textContent = 'Play';
+                } else {
+                    startReading();
+                    if (playPauseButton) playPauseButton.textContent = 'Pause';
+                }
+                break;
+            case 'Escape':
+                if (state.isReading) stopReading();
+                switchView('dashboard');
+                if (playPauseButton) playPauseButton.textContent = 'Play';
+                break;
+            case 'ArrowRight':
+                // Forward skip logic (if implemented)
+                break;
+            case 'ArrowLeft':
+                // Backward skip logic (if implemented)
+                break;
+            case 'KeyR':
+                // Reset reading
+                state.wordChunkIndex = 0;
+                if (state.isReading) startReading();
+                break;
+        }
+    });
+});
 });
 }
 

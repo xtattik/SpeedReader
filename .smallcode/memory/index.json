@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "objects": [
+    {
+      "id": "a4e16788",
+      "type": {
+        "type": "context",
+        "title": "can you check the todo list and implementation guide to get a read on where we'…",
+        "content": "Task: can you check the todo list and implementation guide to get a read on where we're up to with the project?\n\nSuccessful steps:\n- bash `dir`\n\nDuration: 20.8s",
+        "tags": [
+          "evidence",
+          "success"
+        ],
+        "files": [],
+        "symbols": []
+      },
+      "tags": [],
+      "relations": [],
+      "createdAt": "2026-05-23T23:36:02.570Z",
+      "updatedAt": "2026-05-23T23:36:02.570Z",
+      "source": null
+    },
+    {
+      "id": "8847e4dd",
+      "type": {
+        "type": "context",
+        "title": "cool - want to have a crack at that logic?",
+        "content": "Task: cool - want to have a crack at that logic?\nFiles: index.html, styles.css, app.js, manifest.json, sw.js\n\nSuccessful steps:\n- write_file index.html\n- write_file styles.css\n- write_file app.js\n- write_file manifest.json\n- write_file sw.js\n\nDuration: 99.8s",
+        "tags": [
+          "evidence",
+          "success"
+        ],
+        "files": [
+          "index.html",
+          "styles.css",
+          "app.js",
+          "manifest.json",
+          "sw.js"
+        ],
+        "symbols": []
+      },
+      "tags": [],
+      "relations": [],
+      "createdAt": "2026-05-23T23:42:33.490Z",
+      "updatedAt": "2026-05-23T23:42:33.490Z",
+      "source": null
+    },
+    {
+      "id": "54aa68ee",
+      "type": {
+        "type": "context",
+        "title": "let's get file parsing done - we can't test the RSVP core engine if we can't se…",
+        "content": "Task: let's get file parsing done - we can't test the RSVP core engine if we can't send it text, so do number 1 now\nFiles: app.js\n\nSuccessful steps:\n- patch app.js\n\nDuration: 35.3s",
+        "tags": [
+          "evidence",
+          "success"
+        ],
+        "files": [
+          "app.js"
+        ],
+        "symbols": []
+      },
+      "tags": [],
+      "relations": [],
+      "createdAt": "2026-05-23T23:44:30.914Z",
+      "updatedAt": "2026-05-23T23:44:30.914Z",
+      "source": null
+    },
+    {
+      "id": "08b62765",
+      "type": {
+        "type": "context",
+        "title": "great - let's do it",
+        "content": "Task: great - let's do it\nFiles: app.js\n\nFailed steps:\n- patch app.js → old_str not found in app.js (×3)\n\nSuccessful steps:\n- write_file app.js\n\nDuration: 176.3s",
+        "tags": [
+          "evidence",
+          "partial-failure"
+        ],
+        "files": [
+          "app.js"
+        ],
+        "symbols": []
+      },
+      "tags": [],
+      "relations": [],
+      "createdAt": "2026-05-23T23:48:56.129Z",
+      "updatedAt": "2026-05-23T23:48:56.129Z",
+      "source": null
+    }
+  ],
+  "updatedAt": "2026-05-23T23:48:56.129Z"
+}

@@ -18,15 +18,24 @@
         <!-- Dashboard State -->
         <div id="dashboard-view" class="view active">
             <h1>Speed Reader</h1>
+            
             <div id="upload-zone" class="dropzone">
-                <p>Drag & Drop Files or Paste Text</p>
+                <p>Drag & Drop Files or use Paste below</p>
                 <input type="file" id="fileInput" style="display: none;">
-                <button id="browseButton">Browse Files</button>
-                <button id="pasteButton">Paste Text</button>
+                <div class="button-group">
+                    <button id="browseButton">Browse Files</button>
+                    <button id="pasteButton">Paste from Clipboard</button>
+                </div>
             </div>
+
+            <div id="text-input-container">
+                <textarea id="manualPasteArea" placeholder="Or paste your text here manually..."></textarea>
+                <button id="manualSubmitButton">Start Reading Manual Text</button>
+            </div>
+
             <div id="history-list">
                 <h2>Recent Reads</h2>
-                <!-- History items will be injected here -->
+                <div id="history-items"></div>
             </div>
         </div>
 
@@ -34,12 +43,22 @@
         <div id="reader-view" class="view hidden">
             <div id="controls">
                 <button id="playPauseButton">Play</button>
-                <div id="speed-display">Speed: 300 WPM</div>
-                <div id="progress-bar"></div>
+                
+                <div class="control-item">
+                    <label for="speedRange">Speed (WPM)</label>
+                    <input type="range" id="speedRange" min="100" max="1000" step="50" value="300">
+                    <span id="speed-display">300</span>
+                </div>
+
+                <div class="progress-container">
+                    <div id="progress-bar"></div>
+                </div>
             </div>
+
             <div id="reading-canvas">
                 <!-- RSVP words/chunks will be rendered here -->
             </div>
+
             <div id="settings-sidebar" class="hidden">
                 <!-- Settings controls -->
             </div>

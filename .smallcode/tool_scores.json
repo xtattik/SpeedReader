@@ -1,0 +1,74 @@
+{
+  "find_files:search": {
+    "tool_name": "find_files",
+    "task_type": "search",
+    "success_count": 1,
+    "failure_count": 0,
+    "total_calls": 1,
+    "confidence": 0.6666666666666666,
+    "last_error": null
+  },
+  "bash:search": {
+    "tool_name": "bash",
+    "task_type": "search",
+    "success_count": 1,
+    "failure_count": 0,
+    "total_calls": 1,
+    "confidence": 0.6666666666666666,
+    "last_error": null
+  },
+  "read_file:search": {
+    "tool_name": "read_file",
+    "task_type": "search",
+    "success_count": 2,
+    "failure_count": 0,
+    "total_calls": 2,
+    "confidence": 0.75,
+    "last_error": null
+  },
+  "read_file:coding": {
+    "tool_name": "read_file",
+    "task_type": "coding",
+    "success_count": 3,
+    "failure_count": 0,
+    "total_calls": 3,
+    "confidence": 0.8,
+    "last_error": null
+  },
+  "write_file:coding": {
+    "tool_name": "write_file",
+    "task_type": "coding",
+    "success_count": 4,
+    "failure_count": 3,
+    "total_calls": 7,
+    "confidence": 0.5555555555555556,
+    "last_error": "Refused: write_file would overwrite existing 'sw.js' you haven't read. Call read_file first to see its current content, OR if you intend to fully replace it, retry — second attempt is allowed."
+  },
+  "read_file:shell": {
+    "tool_name": "read_file",
+    "task_type": "shell",
+    "success_count": 1,
+    "failure_count": 0,
+    "total_calls": 1,
+    "confidence": 0.6666666666666666,
+    "last_error": null
+  },
+  "patch:shell": {
+    "tool_name": "patch",
+    "task_type": "shell",
+    "success_count": 1,
+    "failure_count": 0,
+    "total_calls": 1,
+    "confidence": 0.6666666666666666,
+    "last_error": null
+  },
+  "patch:coding": {
+    "tool_name": "patch",
+    "task_type": "coding",
+    "success_count": 0,
+    "failure_count": 3,
+    "total_calls": 3,
+    "confidence": 0.2,
+    "last_error": "old_str not found in app.js"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "3d3d9767",
+  "label": "multi-file-1779579739897",
+  "startedAt": "2026-05-23T23:42:19.897Z",
+  "endedAt": "2026-05-23T23:42:33.491Z",
+  "fileCount": 0,
+  "files": [],
+  "outcome": {
+    "rolledBack": false,
+    "committed": true
+  }
+}

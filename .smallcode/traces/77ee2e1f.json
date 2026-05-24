@@ -1,0 +1,13 @@
+{
+  "id": "77ee2e1f",
+  "model": "local",
+  "prompt": "yes - go for it",
+  "startedAt": "2026-05-24T00:00:15.398Z",
+  "steps": [],
+  "tokens": {
+    "prompt": 15400,
+    "completion": 1030
+  },
+  "endedAt": "2026-05-24T00:01:39.761Z",
+  "durationMs": 84363
+}

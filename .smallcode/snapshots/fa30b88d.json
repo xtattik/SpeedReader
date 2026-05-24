@@ -1,0 +1,12 @@
+{
+  "id": "fa30b88d",
+  "label": "turn-1779579341817",
+  "startedAt": "2026-05-23T23:35:41.817Z",
+  "endedAt": "2026-05-23T23:36:02.572Z",
+  "fileCount": 0,
+  "files": [],
+  "outcome": {
+    "rolledBack": false,
+    "committed": true
+  }
+}
