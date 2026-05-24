@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Reader</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <!-- CDN Imports -->
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.0.1/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div id="app-container">
+        <!-- Dashboard State -->
+        <div id="dashboard-view" class="view active">
+            <h1>Speed Reader</h1>
+            <div id="upload-zone" class="dropzone">
+                <p>Drag & Drop Files or Paste Text</p>
+                <input type="file" id="fileInput" style="display: none;">
+                <button id="browseButton">Browse Files</button>
+                <button id="pasteButton">Paste Text</button>
+            </div>
+            <div id="history-list">
+                <h2>Recent Reads</h2>
+                <!-- History items will be injected here -->
+            </div>
+        </div>
+
+        <!-- Reader State -->
+        <div id="reader-view" class="view hidden">
+            <div id="controls">
+                <button id="playPauseButton">Play</button>
+                <div id="speed-display">Speed: 300 WPM</div>
+                <div id="progress-bar"></div>
+            </div>
+            <div id="reading-canvas">
+                <!-- RSVP words/chunks will be rendered here -->
+            </div>
+            <div id="settings-sidebar" class="hidden">
+                <!-- Settings controls -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
