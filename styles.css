@@ -638,7 +638,6 @@ input, textarea, select {
 
 .rsvp-word {
   font-family: var(--font-mono);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1.3;
@@ -648,49 +647,42 @@ input, textarea, select {
   user-select: none;
 }
 
+.rsvp-word--chunk-1 { font-size: clamp(2.5rem, 6vw, 4.5rem); }
+.rsvp-word--chunk-2 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+.rsvp-word--chunk-3 { font-size: clamp(1.4rem, 3.2vw, 2.2rem); }
+.rsvp-word--chunk-4 { font-size: clamp(1.1rem, 2.6vw, 1.8rem); }
+.rsvp-word--chunk-5 { font-size: clamp(0.95rem, 2.2vw, 1.5rem); }
+
 .rsvp-word__left {
   color: var(--text-muted);
 }
 
 .rsvp-word__anchor {
-  color: var(--accent);
+  color: #00e5ff;
   position: relative;
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
 }
 
 .rsvp-word__right {
   color: var(--text-primary);
 }
 
-.rsvp-word--chunk-2 .rsvp-word__left,
-.rsvp-word--chunk-2 .rsvp-word__anchor,
-.rsvp-word--chunk-2 .rsvp-word__right,
-.rsvp-word--chunk-3 .rsvp-word__left,
-.rsvp-word--chunk-3 .rsvp-word__anchor,
-.rsvp-word--chunk-3 .rsvp-word__right,
-.rsvp-word--chunk-4 .rsvp-word__left,
-.rsvp-word--chunk-4 .rsvp-word__anchor,
-.rsvp-word--chunk-4 .rsvp-word__right,
-.rsvp-word--chunk-5 .rsvp-word__left,
-.rsvp-word--chunk-5 .rsvp-word__anchor,
-.rsvp-word--chunk-5 .rsvp-word__right {
-  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
-  font-weight: 600;
+.rsvp-word__left,
+.rsvp-word__anchor,
+.rsvp-word__right {
+  font-weight: 700;
 }
 
 .rsvp-word--chunk-2 .rsvp-word__left { color: var(--text-muted); opacity: 0.6; }
-.rsvp-word--chunk-2 .rsvp-word__anchor { color: var(--accent); }
 .rsvp-word--chunk-2 .rsvp-word__right { color: var(--text-secondary); }
 
 .rsvp-word--chunk-3 .rsvp-word__left { color: var(--text-muted); opacity: 0.5; }
-.rsvp-word--chunk-3 .rsvp-word__anchor { color: var(--accent); }
 .rsvp-word--chunk-3 .rsvp-word__right { color: var(--text-secondary); opacity: 0.7; }
 
 .rsvp-word--chunk-4 .rsvp-word__left { color: var(--text-muted); opacity: 0.45; }
-.rsvp-word--chunk-4 .rsvp-word__anchor { color: var(--accent); }
 .rsvp-word--chunk-4 .rsvp-word__right { color: var(--text-secondary); opacity: 0.55; }
 
 .rsvp-word--chunk-5 .rsvp-word__left { color: var(--text-muted); opacity: 0.4; }
-.rsvp-word--chunk-5 .rsvp-word__anchor { color: var(--accent); }
 .rsvp-word--chunk-5 .rsvp-word__right { color: var(--text-secondary); opacity: 0.5; }
 
 .rsvp-progress-text {
@@ -1089,6 +1081,11 @@ input, textarea, select {
   to { opacity: 1; transform: scale(1); }
 }
 
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(1rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
 .animate-in {
   animation: fadeIn 0.3s ease forwards;
 }
@@ -1197,7 +1194,180 @@ input, textarea, select {
 
 /* --- Focus Visible for Keyboard Nav --- */
 
+/* --- Reader Controls --- */
+
+#controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border-top: 1px solid var(--border-glass);
+  z-index: 10;
+  width: 100%;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 700px;
+  justify-content: center;
+}
+
+.control-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.control-item label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.control-item select,
+.control-item input[type="range"] {
+  cursor: pointer;
+}
+
+.control-item select {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.75rem;
+  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  min-width: 70px;
+  text-align: center;
+  transition: border-color var(--transition-speed);
+}
+
+.control-item select:hover,
+.control-item select:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+#speed-display {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+#progress-bar {
+  width: 100%;
+  max-width: 700px;
+  height: 4px;
+  background: var(--bg-tertiary);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+
+#effective-wpm,
+#progress-text {
+  font-family: var(--font-mono);
+}
+
+.wpm-warning {
+  color: #ff4444 !important;
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.5);
+  animation: pulse-warn 1s ease-in-out infinite;
+}
+
+@keyframes pulse-warn {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.settings-sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-glass);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    border: 1px solid var(--border-glass);
+    border-top: 1px solid var(--border-glass-hover);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 1rem 1.5rem;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 320px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.settings-section h3 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+.settings-sidebar button {
+    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.settings-sidebar button:hover {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+}
+
+#settingsToggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    background: transparent;
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#settingsToggle:hover {
+    color: var(--text-primary);
+    background: var(--accent-glow);
+    border-color: var(--accent);
+}
+
+.hidden {
+    display: none !important;
+}
+
 *:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }

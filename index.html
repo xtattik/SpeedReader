@@ -43,11 +43,39 @@
         <div id="reader-view" class="view hidden">
             <div id="controls">
                 <button id="playPauseButton">Play</button>
+                <button id="restartButton">Restart</button>
+                <button id="settingsToggle" title="Settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
                 
-                <div class="control-item">
-                    <label for="speedRange">Speed (WPM)</label>
-                    <input type="range" id="speedRange" min="100" max="1000" step="50" value="300">
-                    <span id="speed-display">300</span>
+                <div class="control-row">
+                    <div class="control-item">
+                        <label for="chunkSizeSelect">Words per group</label>
+                        <select id="chunkSizeSelect">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-item">
+                        <label for="speedRange">Speed (chunks/min)</label>
+                        <input type="range" id="speedRange" min="60" max="1000" step="10" value="120">
+                        <span id="speed-display">120</span>
+                    </div>
+                </div>
+
+                <div class="control-row" style="justify-content: center; gap: 2rem;">
+                    <div style="text-align:center;">
+                        <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.25rem;">Effective WPM</div>
+                        <div id="effective-wpm" style="font-size:1.1rem;font-weight:600;color:var(--accent);">240</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.25rem;">Progress</div>
+                        <div id="progress-text" style="font-size:0.9rem;font-weight:500;color:var(--text-primary);">0 / 0</div>
+                    </div>
                 </div>
 
                 <div class="progress-container">
@@ -60,7 +88,22 @@
             </div>
 
             <div id="settings-sidebar" class="hidden">
-                <!-- Settings controls -->
+                <div class="settings-section">
+                    <h3>Appearance</h3>
+                    <div class="control-item">
+                        <label for="themeSelect">Theme</label>
+                        <select id="themeSelect">
+                            <option value="oled-dark">OLED Dark</option>
+                            <option value="cyberpunk">Cyberpunk Neon</option>
+                            <option value="sepia">Sepia Warm</option>
+                            <option value="alpine">Alpine Light</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>Progress</h3>
+                    <button id="resetProgressBtn">Reset Reading Position</button>
+                </div>
             </div>
         </div>
     </div>
