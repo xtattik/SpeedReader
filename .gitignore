@@ -1,0 +1,16 @@
+# Editor internals
+.smallcode/
+
+# Planning/dev docs (not needed in the distributable)
+task.md
+implementation_plan.md
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temp / test files
+*.tmp
+*.bak
+/tmp/
