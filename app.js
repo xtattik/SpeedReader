@@ -371,7 +371,7 @@ async function parseDocument(file) {
                 text += textContent.items.map(item => item.str).join(' ') + '\n';
             }
         } else if (extension === 'docx') {
-            const result = await mammoth.convertToText({ arrayBuffer: await file.arrayBuffer() });
+            const result = await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
             text = result.value;
         } else if (extension === 'odt' || extension === 'epub') {
             const zip = await JSZip.loadAsync(await file.arrayBuffer());
@@ -394,7 +394,6 @@ async function parseDocument(file) {
                     const textNode = doc.querySelector('body') || doc;
                     text += textNode.textContent + ' ';
                 }
-                text = content;
             }
         } else {
             throw new Error('Unsupported file type.');
