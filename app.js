@@ -458,14 +458,30 @@ async function runLoop() {
     
     const canvas = document.getElementById('reading-canvas');
     if (canvas) {
-        const lastWord = chunk[chunk.length - 1];
-        const lastWordMid = Math.floor(lastWord.length / 2);
-        const anchor = lastWord[lastWordMid];
-        const lastWordLeft = lastWord.substring(0, lastWordMid);
-        const lastWordRight = lastWord.substring(lastWordMid + 1);
-        const prefix = chunk.length > 1 ? chunk.slice(0, chunk.length - 1).join(' ') + ' ' : '';
-        const left = prefix + lastWordLeft;
-        const right = lastWordRight;
+        let left, anchor, right;
+        if (chunk.length === 1) {
+            // Single word — anchor at middle letter (classic RSVP ORP behaviour)
+            const word = chunk[0];
+            const mid = Math.floor(word.length / 2);
+            left = word.substring(0, mid);
+            anchor = word[mid];
+            right = word.substring(mid + 1);
+        } else {
+            // Multi-word chunk — anchor near the centre of the full string so
+            // roughly equal text sits on each side of the focal point
+            let mid = Math.floor(fullText.length / 2);
+            // Don't land on a space — no visible focal letter would appear
+            if (fullText[mid] === ' ') {
+                mid = (mid + 1 < fullText.length) ? mid + 1 : mid - 1;
+            }
+            left   = fullText.substring(0, mid);
+            anchor = fullText[mid];
+            right  = fullText.substring(mid + 1);
+            // CSS collapses regular spaces at span edges (white-space: nowrap);
+            // swap boundary spaces for non-breaking spaces so words don't merge
+            if (left.endsWith(' '))    left  = left.slice(0, -1)  + ' ';
+            if (right.startsWith(' ')) right = ' ' + right.slice(1);
+        }
 
         const chunkClass = `rsvp-word--chunk-${chunk.length}`;
         canvas.innerHTML = `
